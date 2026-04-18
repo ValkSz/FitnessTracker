@@ -11,11 +11,14 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
-@RequiredArgsConstructor
 @Slf4j
 class UserServiceImpl implements UserService, UserProvider {
 
     private final UserRepository userRepository;
+
+    UserServiceImpl(UserRepository userRepository) {
+        this.userRepository = userRepository;
+    }
 
     @Override
     public User createUser(final User user) {
