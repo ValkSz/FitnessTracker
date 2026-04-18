@@ -8,14 +8,15 @@ import lombok.NoArgsConstructor;
 import lombok.ToString;
 import pl.wsb.fitnesstracker.user.api.User;
 
-import java.util.Date;
+import java.time.LocalDate;
 
 @Entity
 @Table(name = "health_metrics")
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @ToString
-public class Healthmetrics {
+public class HealthMetrics {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Nullable
@@ -25,31 +26,23 @@ public class Healthmetrics {
     @JoinColumn(name = "user_id", nullable = false)
     private User user;
 
-    @Column(name = "date", nullable = false)
-    private Date date;
+    @Column(nullable = false)
+    private LocalDate date;
 
-    @Column(name = "weight", nullable = false)
+    @Column(nullable = false)
     private double weight;
 
-    @Column(name = "height", nullable = false)
+    @Column(nullable = false)
     private double height;
 
     @Column(name = "heart_rate", nullable = false)
-    private double heart_rate;
+    private int heartRate;
 
-    public Healthmetrics(
-            final Long id,
-            final User user,
-            final Date date,
-            final double weight,
-            final double height,
-            final double heart_rate) {
-
-        this.id = id;
+    public HealthMetrics(User user, LocalDate date, double weight, double height, int heartRate) {
         this.user = user;
         this.date = date;
         this.weight = weight;
         this.height = height;
-        this.heart_rate = heart_rate;
+        this.heartRate = heartRate;
     }
 }
