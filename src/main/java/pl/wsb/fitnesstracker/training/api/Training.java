@@ -28,6 +28,8 @@ public class Training {
     @Column(name = "end_time")
     private Date endTime;
 
+    @Enumerated(EnumType.STRING)
+    @Column(name = "activity_type", nullable = false)
     private ActivityType activityType;
 
     private double distance;
