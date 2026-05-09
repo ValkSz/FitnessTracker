@@ -11,22 +11,16 @@ public class Event {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
-    @JoinColumn(name = "name")
     private long name;
 
-    @JoinColumn(name = "description")
     private long description;
 
-    @JoinColumn(name = "startTime")
     private long startTime;
 
-    @JoinColumn(name = "endTime")
     private long endTime;
 
-    @JoinColumn(name = "country")
     private long country;
 
-    @JoinColumn(name = "city")
     private long city;
 
     public Event(

@@ -3,6 +3,7 @@ package pl.wsb.fitnesstracker.workoutsession;
 import jakarta.persistence.*;
 import pl.wsb.fitnesstracker.training.internal.ActivityType;
 import pl.wsb.fitnesstracker.user.api.User;
+import pl.wsb.fitnesstracker.training.api.Training;
 
 import java.time.LocalDateTime;
 import java.util.Date;
@@ -19,7 +20,7 @@ public class WorkoutSession {
 
     @ManyToOne
     @JoinColumn(name = "trainingId")
-    private int trainingId;
+    private Training trainingId;
 
     @Column(name = "timestamp")
     private LocalDateTime timestamp;
@@ -41,7 +42,7 @@ public class WorkoutSession {
 
     public WorkoutSession(
             final long id,
-            final int trainingId,
+            final Training trainingId,
             final LocalDateTime timestamp,
             final double startLatitude,
             final double startLongitude,
@@ -66,11 +67,11 @@ public class WorkoutSession {
         this.id = id;
     }
 
-    public int getTrainingId() {
+    public Training getTrainingId() {
         return trainingId;
     }
 
-    public void setTrainingId(int trainingId) {
+    public void setTrainingId(Training trainingId) {
         this.trainingId = trainingId;
     }
 

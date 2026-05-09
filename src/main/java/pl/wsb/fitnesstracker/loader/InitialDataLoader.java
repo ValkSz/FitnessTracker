@@ -3,6 +3,8 @@ package pl.wsb.fitnesstracker.loader;
 import lombok.RequiredArgsConstructor;
 import lombok.ToString;
 import lombok.extern.slf4j.Slf4j;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.Profile;
 import org.springframework.context.event.ContextRefreshedEvent;
 import org.springframework.context.event.EventListener;
@@ -11,6 +13,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 import pl.wsb.fitnesstracker.training.api.Training;
 import pl.wsb.fitnesstracker.training.internal.ActivityType;
+import pl.wsb.fitnesstracker.training.internal.TrainingRepository;
 import pl.wsb.fitnesstracker.user.api.User;
 
 import java.text.ParseException;
@@ -29,12 +32,21 @@ import static java.util.Objects.isNull;
 @Profile("loadInitialData")
 @Slf4j
 @ToString
-@RequiredArgsConstructor
 class InitialDataLoader {
+
+    private static final Logger log = LoggerFactory.getLogger(InitialDataLoader.class);
+
+    private final TrainingRepository trainingRepositoryInterface;
 
     private final JpaRepository<User, Long> userRepository;
 
     private final JpaRepository<Training, Long> trainingRepository;
+
+    InitialDataLoader(TrainingRepository trainingRepositoryInterface, JpaRepository<User, Long> userRepository, JpaRepository<Training, Long> trainingRepository) {
+        this.trainingRepositoryInterface = trainingRepositoryInterface;
+        this.userRepository = userRepository;
+        this.trainingRepository = trainingRepository;
+    }
 
     @EventListener
     @Transactional
@@ -155,6 +167,11 @@ class InitialDataLoader {
             trainingData.add(training10);
 
             trainingRepository.saveAll(trainingData);
+
+            long distanceForFirstUser = trainingRepositoryInterface.countKilometers(1);
+
+            log.info("Sum kilometers of first user: " + distanceForFirstUser);
+
         } catch (ParseException e) {
             e.printStackTrace();
         }
