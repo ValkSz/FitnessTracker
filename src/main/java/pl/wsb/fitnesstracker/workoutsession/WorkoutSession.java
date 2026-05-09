@@ -11,7 +11,7 @@ import java.util.Date;
 // TODO: Define the Event entity with appropriate fields and annotations | done, i think?
 
 @Entity
-@Table(name = "workoutsession")
+@Table(name = "workout_session")
 public class WorkoutSession {
 
     @Id
@@ -19,7 +19,7 @@ public class WorkoutSession {
     private long id;
 
     @ManyToOne
-    @JoinColumn(name = "trainingId")
+    @JoinColumn(name = "training_Id")
     private Training trainingId;
 
     @Column(name = "timestamp")

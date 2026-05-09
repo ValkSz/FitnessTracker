@@ -8,7 +8,7 @@ import java.time.LocalDateTime;
 
 
 @Entity
-@Table(name = "UserEvent")
+@Table(name = "user_event")
 public class UserEvent {
 
     @Id
@@ -19,10 +19,10 @@ public class UserEvent {
     @JoinColumn(name = "user_id")
     private User user_id;
 
+    @JoinColumn(name = "event_id")
     @ManyToOne
     private Event event_id;
 
-    @Column(name = "status")
     private double status;
 
     public long getId() {
