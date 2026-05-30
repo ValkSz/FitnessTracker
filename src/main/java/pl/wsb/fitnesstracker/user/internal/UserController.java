@@ -1,11 +1,11 @@
 package pl.wsb.fitnesstracker.user.internal;
 
 import lombok.RequiredArgsConstructor;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import pl.wsb.fitnesstracker.user.api.UserDto;
+import pl.wsb.fitnesstracker.user.api.UserSimpleDto;
+
+import java.util.List;
 
 /**
  * UserController is responsible for handling HTTP requests related to user operations.
@@ -31,6 +31,16 @@ class UserController {
         //  You can use the @RequestBody annotation to map the request body to the UserDto object.
 
         return null;
+    }
+
+    @GetMapping
+    public List<UserDto> getAllUsers(){
+        return userService.findAllUsers().stream().map(userMapper::toUserDto).toList();
+    }
+
+    @GetMapping("/simple")
+    public List<UserSimpleDto> getAllSimpleUsers(){
+        return userService.findAllUsers().stream().map(userMapper::toUserSimpleDto).toList();
     }
 
 }

@@ -50,6 +50,8 @@ public class Training {
         this.averageSpeed = averageSpeed;
     }
 
+    public Training() {}
+
     @Nullable
     public Long getId() {
         return id;
