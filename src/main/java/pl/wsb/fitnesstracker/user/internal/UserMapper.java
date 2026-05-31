@@ -11,7 +11,16 @@ class UserMapper {
         return new UserDto(user.getId(), user.getFirstName(), user.getLastName(), user.getBirthdate(), user.getEmail());
     }
 
-    public Object toUserSimpleDto(User user) {
+    UserSimpleDto toUserSimpleDto(User user) {
+        return new UserSimpleDto(user.getId(), user.getFirstName(), user.getLastName());
+    }
+
+
+    User toUser(UserDto dto) {
+        return new User(dto.firstName(), dto.lastName(), dto.birthdate(), dto.email());
+    }
+
+    UserSimpleDto toSimpleUserDto(User user) {
         return new UserSimpleDto(user.getId(), user.getFirstName(), user.getLastName());
     }
 }

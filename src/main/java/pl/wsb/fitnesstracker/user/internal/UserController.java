@@ -1,9 +1,9 @@
 package pl.wsb.fitnesstracker.user.internal;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
-import pl.wsb.fitnesstracker.user.api.UserDto;
-import pl.wsb.fitnesstracker.user.api.UserSimpleDto;
+import pl.wsb.fitnesstracker.user.api.*;
 
 import java.util.List;
 
@@ -19,18 +19,20 @@ class UserController {
 
     private final UserMapper userMapper;
 
-    UserController(UserServiceImpl userService, UserMapper userMapper) {
+    private final UserProvider userProvider;
+
+    UserController(UserServiceImpl userService, UserMapper userMapper, UserProvider userProvider) {
         this.userService = userService;
         this.userMapper = userMapper;
+        this.userProvider = userProvider;
     }
 
     @PostMapping
+    @ResponseStatus(HttpStatus.CREATED)
     public UserDto addUser(@RequestBody UserDto userDto) throws InterruptedException {
 
-        // TODO: Implement the method to add a new user.
-        //  You can use the @RequestBody annotation to map the request body to the UserDto object.
-
-        return null;
+        User created = userService.createUser(userMapper.toUser(userDto));
+        return userMapper.toUserDto(created);
     }
 
     @GetMapping
@@ -41,6 +43,17 @@ class UserController {
     @GetMapping("/simple")
     public List<UserSimpleDto> getAllSimpleUsers(){
         return userService.findAllUsers().stream().map(userMapper::toUserSimpleDto).toList();
+    }
+
+    @GetMapping("/{id}")
+    public UserDto getUser(@PathVariable Long id) {
+        return userService.getUser(id).map(userMapper::toUserDto).orElseThrow(() -> new UserNotFoundException(id));
+    }
+
+    @DeleteMapping("/{id}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void deleteUser(@PathVariable Long id) {
+        userService.deleteUser(id);
     }
 
 }
